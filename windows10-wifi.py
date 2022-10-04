@@ -7,9 +7,13 @@
 
 #    Import subprocess so we can use system commands.
 import subprocess
+from traceback import print_tb
+from prettytable import PrettyTable # Pretty Table is used to Display the Dictionary Lists in Table format
 
 #    Import the re module so we can make use of regular expressions. 
 import re
+
+
 
 #    Python allows us to run system commands using the function 
 #    provided by the subprocess module; 
@@ -71,6 +75,21 @@ if len(profile_names) != 0:
             #    We append the wifi information to the variable wifi_list.
             wifi_list.append(wifi_profile) 
 
-for x in range(len(wifi_list)):
-    print(wifi_list[x]) 
+table = PrettyTable() # Initializing Object "table"
 
+ssid_list = [] # empty list to extract SSIDs from "wifi_list" dictionary 
+password_list = [] # empty list to extract Passwords from "wifi_list" dictionary 
+
+# A simple for loop to extract and insert SSIDs & Passwords from wifi_list to ssid_list & password_list
+for entry in wifi_list:
+    for key,value in entry.items():
+        if key == "ssid":
+            ssid_list.append(value)
+        elif key == "password":
+            password_list.append(value)
+
+# PrettyTable functions to insert Row & Column into the table        
+table.add_column("SSID",ssid_list)
+table.add_column("Password", password_list)
+
+print(table)
